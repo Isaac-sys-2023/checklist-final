@@ -48,17 +48,21 @@ const Page = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
+    console.log(API_URL);
     try {
       fetch(`${API_URL}/tasks`)
         .then((res) => res.json())
         .then((data) => {
-          setTasks(
-            data.filter(
-              (task: Task) =>
-                task.day &&
-                Number(task.day.split("-")[1]) - 1 === new Date().getMonth()
-            ) as Task[]
-          );
+          {
+            console.log(data);
+            setTasks(
+              data.filter(
+                (task: Task) =>
+                  task.day &&
+                  Number(task.day.split("-")[1]) - 1 === new Date().getMonth()
+              ) as Task[]
+            );
+          }
         });
     } catch (error) {
       console.error("Error fetching tasks:", error);
@@ -82,7 +86,7 @@ const Page = () => {
   return (
     <div className="calendar-container">
       <h1 className="calendar-title">
-        {monthName.toUpperCase()} {year}
+        TAREAS DEL MES {monthName.toUpperCase()} DE {year}
       </h1>
       <div className="calendar-grid">
         {emptyDays}
@@ -102,14 +106,13 @@ const Page = () => {
               <div className="day-number">{day}</div>
               {pending > 0 && (
                 <div className="tasks-info pending">
-                  {pending} tareas faltantes{" "}
+                  {pending} faltantes{" "}
                   <span style={{ color: "#ff0044" }}>⬤</span>
                 </div>
               )}
               {completed > 0 && (
                 <div className="tasks-info completed">
-                  {completed} tareas hechas{" "}
-                  <span style={{ color: "#00ff88" }}>⬤</span>
+                  {completed} hechas <span style={{ color: "#00ff88" }}>⬤</span>
                 </div>
               )}
             </div>
