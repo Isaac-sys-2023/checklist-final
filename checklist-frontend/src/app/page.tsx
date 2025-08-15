@@ -1,10 +1,10 @@
 "use client";
 import { Task } from "@/types/Tasks";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import TaskModal from "@/components/TaskModal/TaskModal";
 import MultiTaskModal from "@/components/MultiTaskModal/MultiTaskModal";
 import TaskListItem from "@/components/TaskListItem/TaskListItem";
+import "@/styles/app/homeStyles.css";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -16,8 +16,8 @@ export default function Home() {
   useEffect(() => {
     try {
       fetch(`${API_URL}/tasks`)
-        .then(res => res.json())
-        .then(data => setTasks(data as Task[]));
+        .then((res) => res.json())
+        .then((data) => setTasks(data as Task[]));
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
@@ -29,14 +29,14 @@ export default function Home() {
       if (task) {
         const updatedTask = { ...task, completed: !task.completed };
         const response = await fetch(`${API_URL}/tasks/${taskId}`, {
-          method: 'PUT',
+          method: "PUT",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(updatedTask),
         });
         if (!response.ok) {
-          throw new Error('Failed to update task');
+          throw new Error("Failed to update task");
         }
         setTasks((prevTasks) =>
           prevTasks.map((t) => (t.id === taskId ? updatedTask : t))
@@ -50,10 +50,10 @@ export default function Home() {
   const handleDeleteTask = async (taskId: number) => {
     try {
       const response = await fetch(`${API_URL}/tasks/${taskId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
       if (!response.ok) {
-        throw new Error('Failed to delete task');
+        throw new Error("Failed to delete task");
       }
       setTasks((prevTasks) => prevTasks.filter((t) => t.id !== taskId));
     } catch (error) {
@@ -62,32 +62,98 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <h1>Tus tareas de hoy</h1>
-      
-      <button onClick={() => setShowModal(true)} style={{marginBottom: '1rem'}}>New Task +</button>
-      <button onClick={() => setShowMultiModal(true)} style={{marginBottom: '1rem'}}>Multi Tasks with JSON</button>
+    <div className="home-container">
+      <h1 className="title-home">Tus tareas de hoy</h1>
+
+      <div className="home-buttons-group">
+        <button className="button" onClick={() => setShowModal(true)}>
+          New Task +
+        </button>
+        <button className="button" onClick={() => setShowMultiModal(true)}>
+          Multi Tasks with JSON
+        </button>
+      </div>
 
       <div>
-        {tasks.filter((task: Task) => task.day && task.day === new Date().toISOString().split("T")[0]).map((task: Task) => (
-          <TaskListItem key={task.id} task={task} onToggle={handleToggleTask} onDelete={handleDeleteTask} />
-        ))}
+        {tasks
+          .filter(
+            (task: Task) =>
+              task.day && task.day === new Date().toISOString().split("T")[0]
+          )
+          .map((task: Task) => (
+            <TaskListItem
+              key={task.id}
+              task={task}
+              onToggle={handleToggleTask}
+              onDelete={handleDeleteTask}
+            />
+          ))}
       </div>
 
       {showModal && (
-        <div style={{position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000}}>
-          <div style={{background: '#222', padding: '2rem', borderRadius: '8px', minWidth: '300px'}}>
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              background: "#222",
+              padding: "2rem",
+              borderRadius: "8px",
+              minWidth: "300px",
+            }}
+          >
             <TaskModal />
-            <button onClick={() => setShowModal(false)} style={{marginTop: '1rem'}}>Cerrar</button>
+            <button
+              onClick={() => setShowModal(false)}
+              style={{ marginTop: "1rem" }}
+            >
+              Cerrar
+            </button>
           </div>
         </div>
       )}
 
       {showMultiModal && (
-        <div style={{position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000}}>
-          <div style={{background: '#222', padding: '2rem', borderRadius: '8px', minWidth: '300px'}}>
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              background: "#222",
+              padding: "2rem",
+              borderRadius: "8px",
+              minWidth: "300px",
+            }}
+          >
             <MultiTaskModal />
-            <button onClick={() => setShowMultiModal(false)} style={{marginTop: '1rem'}}>Cerrar</button>
+            <button
+              onClick={() => setShowMultiModal(false)}
+              style={{ marginTop: "1rem" }}
+            >
+              Cerrar
+            </button>
           </div>
         </div>
       )}

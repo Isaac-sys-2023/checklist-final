@@ -1,0 +1,28 @@
+.task-item-container {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    color: white;
+    font-family: sans-serif;
+    transition: all 0.3s ease;
+}
+
+/* Completado - verde */
+.completed {
+    background-color: rgba(0, 255, 0, 0.15); /* Verde tenue */
+    border: 2px solid #00ff88; /* Verde neón */
+    box-shadow:
+        0 0 5px #00ff88,
+        0 0 10px #00ff88,
+        0 0 20px #00ff88;
+}
+
+/* Incompleto - rojo */
+.incompleted {
+    background-color: rgba(255, 0, 0, 0.15); /* Rojo tenue */
+    border: 2px solid #ff0044; /* Rojo neón */
+    box-shadow:
+        0 0 5px #ff0044,
+        0 0 10px #ff0044,
+        0 0 20px #ff0044;
+}
