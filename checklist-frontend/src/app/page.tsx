@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import TaskModal from "@/components/TaskModal/TaskModal";
 import MultiTaskModal from "@/components/MultiTaskModal/MultiTaskModal";
+import TaskListItem from "@/components/TaskListItem/TaskListItem";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -55,11 +56,7 @@ export default function Home() {
 
       <div>
         {tasks.filter((task: Task) => task.day && task.day === new Date().toISOString().split("T")[0]).map((task: Task) => (
-          <div key={task.id}>
-            <h2>{task.title}</h2>
-            <p>{task.day}</p>
-            <input type="checkbox" checked={task.completed} onChange={() => handleToggleTask(task.id)} />
-          </div>
+          <TaskListItem key={task.id} task={task} onToggle={handleToggleTask} />
         ))}
       </div>
 
