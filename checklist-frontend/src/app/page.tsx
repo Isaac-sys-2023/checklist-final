@@ -47,6 +47,20 @@ export default function Home() {
     }
   };
 
+  const handleDeleteTask = async (taskId: number) => {
+    try {
+      const response = await fetch(`${API_URL}/tasks/${taskId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete task');
+      }
+      setTasks((prevTasks) => prevTasks.filter((t) => t.id !== taskId));
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
   return (
     <div>
       <h1>Tus tareas de hoy</h1>
@@ -56,7 +70,7 @@ export default function Home() {
 
       <div>
         {tasks.filter((task: Task) => task.day && task.day === new Date().toISOString().split("T")[0]).map((task: Task) => (
-          <TaskListItem key={task.id} task={task} onToggle={handleToggleTask} />
+          <TaskListItem key={task.id} task={task} onToggle={handleToggleTask} onDelete={handleDeleteTask} />
         ))}
       </div>
 
