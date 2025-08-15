@@ -10,6 +10,12 @@
     text-align: center;
 }
 
+.subtitle-home{
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
 .home-buttons-group{
     width: 100%;
     display: flex;

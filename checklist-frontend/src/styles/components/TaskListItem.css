@@ -7,6 +7,10 @@
     transition: all 0.3s ease;
 }
 
+.task-item-title{
+    font-weight: bold;
+}
+
 /* Completado - verde */
 .completed {
     background-color: rgba(0, 255, 0, 0.15); /* Verde tenue */

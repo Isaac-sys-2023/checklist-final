@@ -61,9 +61,17 @@ export default function Home() {
     }
   };
 
+  const hoy = () => {
+    const day = new Date()
+    const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    return `Hoy es ${day.getDate()} de ${months[day.getMonth() - 1]} de ${day.getFullYear()}`
+  }
+
   return (
     <div className="home-container">
       <h1 className="title-home">Tus tareas de hoy</h1>
+      <h2 className="subtitle-home">{hoy()}</h2>
 
       <div className="home-buttons-group">
         <button className="button" onClick={() => setShowModal(true)}>
