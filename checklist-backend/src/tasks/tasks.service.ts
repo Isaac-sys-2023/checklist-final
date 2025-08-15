@@ -27,6 +27,11 @@ export class TasksService {
     const task = this.tasksRepository.create({ title, day });
     return this.tasksRepository.save(task);
   }
+  
+  async bulkCreate(tasks: Array<{ title: string; day?: string }>): Promise<Task[]> {
+    const entities = tasks.map(t => this.tasksRepository.create({ title: t.title, day: t.day }));
+    return this.tasksRepository.save(entities);
+  }
 
   async update(id: number, completed: boolean): Promise<Task> {
     await this.tasksRepository.update(id, { completed });

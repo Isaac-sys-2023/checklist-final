@@ -23,6 +23,11 @@ export class TasksController {
   create(@Body() body: { title: string; day?: string }): Promise<Task> {
     return this.tasksService.create(body.title, body.day);
   }
+  
+  @Post('bulk')
+  bulkCreate(@Body() tasks: Array<{ title: string; day?: string }>): Promise<Task[]> {
+    return this.tasksService.bulkCreate(tasks);
+  }
 
   @Put(':id')
   update(
