@@ -17,7 +17,10 @@ export default function Home() {
     try {
       fetch(`${API_URL}/tasks`)
         .then((res) => res.json())
-        .then((data) => setTasks(data as Task[]));
+        .then((data) => setTasks(data.filter(
+            (task: Task) =>
+              task.day && task.day === new Date().toISOString().split("T")[0]
+          ) as Task[]));
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
@@ -84,10 +87,6 @@ export default function Home() {
 
       <div>
         {tasks
-          .filter(
-            (task: Task) =>
-              task.day && task.day === new Date().toISOString().split("T")[0]
-          )
           .map((task: Task) => (
             <TaskListItem
               key={task.id}
