@@ -3,7 +3,11 @@ import { useState } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const TaskModal = () => {
+interface TaskModalProps {
+    onClose: () => void;
+}
+
+const TaskModal = ({ onClose }: TaskModalProps) => {
     const [taskTitle, setTaskTitle] = useState("");
     const [taskDate, setTaskDate] = useState(new Date().toISOString().split("T")[0]);
 
@@ -23,6 +27,8 @@ const TaskModal = () => {
                 }
                 setTaskTitle("");
                 setTaskDate(new Date().toISOString().split("T")[0]);
+
+                onClose();
             } catch (error) {
                 console.error("Error creating task:", error);
             }

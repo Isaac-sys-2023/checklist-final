@@ -3,7 +3,11 @@ import { useState } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const MultiTaskModal = () => {
+interface MultiTaskModalProps {
+    onClose: () => void;
+}
+
+const MultiTaskModal = ({ onClose }: MultiTaskModalProps) => {
     const [tasks, setTasks] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -21,6 +25,7 @@ const MultiTaskModal = () => {
                     throw new Error('Failed to create task');
                 }
                 setTasks("");
+                onClose();
             } catch (error) {
                 console.error("Error creating tasks:", error);
             }

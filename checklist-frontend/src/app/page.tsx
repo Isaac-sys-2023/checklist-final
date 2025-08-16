@@ -15,12 +15,13 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      fetch(`${API_URL}/tasks`)
-        .then((res) => res.json())
-        .then((data) => setTasks(data.filter(
-            (task: Task) =>
-              task.day && task.day === new Date().toISOString().split("T")[0]
-          ) as Task[]));
+      // fetch(`${API_URL}/tasks`)
+      //   .then((res) => res.json())
+      //   .then((data) => setTasks(data.filter(
+      //     (task: Task) =>
+      //       task.day && task.day === new Date().toISOString().split("T")[0]
+      //   ) as Task[]));
+      fetchTasks();
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
@@ -71,6 +72,33 @@ export default function Home() {
     return `Hoy es ${day.getDate()} de ${months[day.getMonth() - 1]} de ${day.getFullYear()}`
   }
 
+  const getLocalDateString = () => {
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const fetchTasks = async () => {
+    await fetch(`${API_URL}/tasks`)
+      .then((res) => res.json())
+      .then((data) =>
+        setTasks(
+          data.filter(
+            (task: Task) =>
+              task.day && task.day === getLocalDateString()
+          ) as Task[]
+        )
+      );
+  };
+
+  const closeModal = async () => {
+    setShowModal(false);
+    setShowMultiModal(false);
+    await fetchTasks();
+  };
+
   return (
     <div className="home-container">
       <h1 className="title-home">Tus tareas de hoy</h1>
@@ -120,9 +148,9 @@ export default function Home() {
               minWidth: "300px",
             }}
           >
-            <TaskModal />
+            <TaskModal onClose={closeModal} />
             <button
-              onClick={() => setShowModal(false)}
+              onClick={() => closeModal()}
               style={{ marginTop: "1rem" }}
             >
               Cerrar
@@ -154,9 +182,9 @@ export default function Home() {
               minWidth: "300px",
             }}
           >
-            <MultiTaskModal />
+            <MultiTaskModal onClose={closeModal} />
             <button
-              onClick={() => setShowMultiModal(false)}
+              onClick={() => closeModal()}
               style={{ marginTop: "1rem" }}
             >
               Cerrar
