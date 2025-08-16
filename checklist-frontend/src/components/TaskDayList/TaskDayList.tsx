@@ -92,14 +92,6 @@ export default function TaskDayList({ date }: TaskDayListProps) {
     const fetchTasks = async () => {
         await fetch(`${API_URL}/tasks`)
             .then((res) => res.json())
-            // .then((data) =>
-            //     setTasks(
-            //         data.filter(
-            //             (task: Task) =>
-            //                 task.day && task.day === date
-            //         ) as Task[]
-            //     )
-            // );
             .then((data) => {
                 console.log("Tasks from backend:", data);
                 console.log("Prop date:", date);

@@ -83,6 +83,26 @@ const Page = () => {
     };
   });
 
+  const getLocalTodayDateString = () => {
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const compareDaysBefore = (date: string) => {
+    const today = getLocalTodayDateString();
+    const [year1, month1, day1] = today.split("-");
+    const [year2, month2, day2] = date.split("-");
+
+    if (year1 < year2) return true;
+    if (year1 > year2) return false;
+    if (month1 < month2) return true;
+    if (month1 > month2) return false;
+    return day1 <= day2;
+  };
+
   return (
     <div className="calendar-container">
       <h1 className="calendar-title">
@@ -95,7 +115,7 @@ const Page = () => {
           return (
             <div
               key={day}
-              className={`calendar-day ${isToday ? "today" : ""}`}
+              className={`calendar-day ${isToday ? "today" : ""} ${compareDaysBefore(`${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`) ? "" : "disabled-overlay"}`}
               style={{
                 borderColor: isToday ? "#fff" : neonColor,
                 boxShadow: isToday

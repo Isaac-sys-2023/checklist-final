@@ -30,3 +30,9 @@ body {
 .button:hover{
     background-color: #666;
 }
+
+.disabled-overlay {
+  pointer-events: none;
+  opacity: 0.5;
+  filter: grayscale(0.7);
+}
