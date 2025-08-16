@@ -38,6 +38,11 @@ export class TasksService {
     return this.findOne(id);
   }
 
+  async entireUpdate(id: number, body: { title: string; completed: boolean; day?: string }): Promise<Task> {
+    await this.tasksRepository.update(id, body);
+    return this.findOne(id);
+  }
+
   async remove(id: number): Promise<void> {
     await this.tasksRepository.delete(id);
   }

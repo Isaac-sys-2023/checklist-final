@@ -37,6 +37,14 @@ export class TasksController {
     return this.tasksService.update(+id, body.completed);
   }
 
+  @Put(':id/entire')
+  entireUpdate(
+    @Param('id') id: string,
+    @Body() body: { title: string; completed: boolean; day?: string },
+  ): Promise<Task> {
+    return this.tasksService.entireUpdate(+id, body);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string): Promise<void> {
     return this.tasksService.remove(+id);

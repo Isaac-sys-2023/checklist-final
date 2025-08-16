@@ -12,15 +12,10 @@ export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [showMultiModal, setShowMultiModal] = useState(false);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   useEffect(() => {
     try {
-      // fetch(`${API_URL}/tasks`)
-      //   .then((res) => res.json())
-      //   .then((data) => setTasks(data.filter(
-      //     (task: Task) =>
-      //       task.day && task.day === new Date().toISOString().split("T")[0]
-      //   ) as Task[]));
       fetchTasks();
     } catch (error) {
       console.error("Error fetching tasks:", error);
@@ -48,6 +43,14 @@ export default function Home() {
       }
     } catch (error) {
       console.error("Error toggling task:", error);
+    }
+  };
+
+  const handleEditTask = (taskId: number) => {
+    const task = tasks.find((task: Task) => task.id === taskId);
+    if (task) {
+      setEditingTask(task);
+      setShowModal(true);
     }
   };
 
@@ -121,6 +124,7 @@ export default function Home() {
               task={task}
               onToggle={handleToggleTask}
               onDelete={handleDeleteTask}
+              onEdit={handleEditTask}
             />
           ))}
       </div>
@@ -148,7 +152,11 @@ export default function Home() {
               minWidth: "300px",
             }}
           >
-            <TaskModal onClose={closeModal} />
+            {editingTask ? (
+              <TaskModal onClose={closeModal} task={editingTask} />
+            ) : (
+              <TaskModal onClose={closeModal} />
+            )}
             <button
               onClick={() => closeModal()}
               style={{ marginTop: "1rem" }}
